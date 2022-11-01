@@ -7,3 +7,6 @@ Nama Anggota:
 Tech Stack:
 - FastAPI: https://fastapi.tiangolo.com/
 - Uvicorn: https://www.uvicorn.org/
+
+Library:
+- Nominatim (get lat lon)
