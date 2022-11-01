@@ -4,4 +4,6 @@ Nama Anggota:
 - Muhammad Rey Shazni Helmi
 - David Nathanio Gabriel Siahaan
 
-https://fastapi.tiangolo.com/
+Tech Stack:
+- FastAPI: https://fastapi.tiangolo.com/
+- Uvicorn: https://www.uvicorn.org/
