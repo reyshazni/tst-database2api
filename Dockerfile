@@ -2,8 +2,10 @@ FROM python:3.8-alpine
 
 WORKDIR /app
 
-ADD . /app
+COPY . /app
 
-RUN pip install geopy
+RUN pip install -r requirements.txt
 
-CMD [ "python", "distance.py" ]
+RUN pip install geopy #need to be installed outide requirements.txt
+
+CMD [ "python", "main.py" ]
