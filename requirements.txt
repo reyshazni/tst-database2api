@@ -2,6 +2,7 @@ anyio==3.5.0
 asgiref==3.5.0
 bcrypt==3.2.0
 beanie==1.10.4
+cffi==1.15.0
 click==8.0.4
 dnspython==2.2.0
 email-validator==1.1.3
