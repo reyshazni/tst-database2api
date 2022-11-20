@@ -8,4 +8,4 @@ RUN pip install -r requirements.txt
 
 RUN pip install geopy #need to be installed outide requirements.txt
 
-CMD [ "python", "distance.py" ]
+CMD [ "python", "main.py" ]
