@@ -58,5 +58,5 @@ jobs:
             yes | head -1
             echo "dangling image removed"
             # Run image and open port
-            docker run -d -p 80:8000 --name rey-container reyshazni/tst-service-kirim
+            docker run -d -p 69:8000 --name rey-container reyshazni/tst-service-kirim
             echo "container started succesfully"
