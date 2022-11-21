@@ -1,13 +1,11 @@
 from geopy.geocoders import Nominatim
 import geopy.distance
 
-
 def getLatLon(alamat):
     geolocator = Nominatim(user_agent="geoapiExercises")
     location = geolocator.geocode(alamat)
     locArray = [location.latitude, location.longitude]
     return locArray
-
 
 def getDistance(alamatToko, alamatCust):
     coords_1 = (getLatLon(alamatToko)[0], getLatLon(alamatToko)[1])

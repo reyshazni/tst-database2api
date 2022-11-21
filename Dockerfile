@@ -4,9 +4,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN pip install --upgrade pip
-
-RUN pip install --no-cache-dir --upgrade -r requirements.txt
+RUN pip install -r requirements.txt
 
 RUN pip install geopy #need to be installed outide requirements.txt
 
