@@ -1,9 +1,9 @@
 from fastapi import APIRouter
 import uvicorn
 
-root = APIRouter()
+routes_root = APIRouter()
 
 
-@root.get("/")
+@routes_root.get("/")
 async def index():
     return {"message": "Hi!"}
