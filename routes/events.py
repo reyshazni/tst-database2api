@@ -7,4 +7,4 @@ event_router = APIRouter(
 
 @event_router.get("/")
 async def index():
-    return {"message": "Hi!"}
+    return {"message": "Hi, this is event 1!"}
