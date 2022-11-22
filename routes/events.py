@@ -11,11 +11,9 @@ event_router = APIRouter(
 @event_router.post("/distance/")
 async def getjarak(distance: Distance):
     jarak = getDistance(distance.alamat1, distance.alamat2)
-    return {"Alamat": distance,
+    return {"Alamat1": distance.alamat1,
+            "Alamat2": distance.alamat2,
             "Jarak": jarak}
-
-
-
 
 def getLatLon(alamat):
     geolocator = Nominatim(user_agent="geoapiExercises")
