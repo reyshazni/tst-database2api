@@ -1,24 +1,27 @@
-from beanie import Document
+from pydantic import BaseModel,EmailStr
 
-from pydantic import BaseModel, EmailStr
-
-
-class User(Document):
+class UserSchema(BaseModel):
+    fullname: str
     email: EmailStr
     password: str
-
-    class Settings:
-        name = "users"
 
     class Config:
         schema_extra = {
             "example": {
-                "email": "fastapi@packt.com",
-                "password": "strong!!!",
+                "fullname": "Abdulazeez Abdulazeez Adeshina",
+                "email": "abdulazeez@x.com",
+                "password": "weakpassword"
             }
         }
 
-
-class UserSignIn(BaseModel):
+class UserLoginSchema(BaseModel):
     email: EmailStr
     password: str
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "email": "abdulazeez@x.com",
+                "password": "weakpassword"
+            }
+        }
