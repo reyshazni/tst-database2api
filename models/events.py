@@ -1,6 +1,3 @@
-from geopy.geocoders import Nominatim
-import geopy.distance
-
 from fastapi import FastAPI
 from pydantic import BaseModel
 

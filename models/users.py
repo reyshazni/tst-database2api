@@ -2,26 +2,28 @@ from pydantic import BaseModel,EmailStr
 
 class UserSchema(BaseModel):
     fullname: str
-    email: EmailStr
+    username: str
     password: str
 
     class Config:
         schema_extra = {
             "example": {
-                "fullname": "Abdulazeez Abdulazeez Adeshina",
-                "email": "abdulazeez@x.com",
+                "fullname": "Rey Shazni",
+                "username": "ruymisterio",
                 "password": "weakpassword"
             }
         }
 
 class UserLoginSchema(BaseModel):
-    email: EmailStr
+    username: str
     password: str
 
     class Config:
         schema_extra = {
             "example": {
-                "email": "abdulazeez@x.com",
+                "username": "ruymisterio",
                 "password": "weakpassword"
             }
         }
+        
+users = []

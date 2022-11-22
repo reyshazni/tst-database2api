@@ -6,4 +6,4 @@ sqlalchemy2-stubs==0.0.2a20
 sqlmodel==0.0.6
 uvicorn==0.17.5
 fastapi-jwt-auth==0.5.0
-#decouple
+passlib==1.7.4
