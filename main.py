@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 import uvicorn
 from routes.events import event_router
-from routes.users import user_router
 
 app = FastAPI()
 
