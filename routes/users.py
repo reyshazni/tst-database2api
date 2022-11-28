@@ -10,7 +10,7 @@ user_router = APIRouter(
     tags=["Users"]
 )
 
-@user_router.post('user/register', status_code=201)
+@user_router.post('/register', status_code=201)
 def register(inputUser: UserRegisterModel):
     if (len(inputUser.username) < 3):
         raise HTTPException(status_code=405, detail="Username harus memiliki minilmal 4 karakter")
@@ -32,7 +32,7 @@ def register(inputUser: UserRegisterModel):
         raise HTTPException(status_code=406, detail="Registrasi gagal, silakan coba lagi")
 
 
-@user_router.post('user/login')
+@user_router.post('/login')
 def login(inputUser: UserLoginSchema):
     users = dbInstance.conn.execute(text("SELECT username, password FROM users WHERE username=:uname"), {"uname":inputUser.username})
     hashed_password = AuthHandler().get_password_hash(passsword=inputUser.password)
