@@ -1,5 +1,5 @@
 import jwt
-from fastapi import HTTPException, Security
+from fastapi import HTTPException, Security, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
@@ -33,11 +33,27 @@ class AuthHandler():
             payload = jwt.decode(token,self.secret, algorithms=['HS256'])
             return payload['sub']
         except jwt.ExpiredSignatureError:
-            raise HTTPException(status_code=401, detail='Token expired, please relogin')
+            raise HTTPException(status_code=402, detail='Token expired')
         except jwt.InvalidTokenError:
-            raise HTTPException(status_code=401, detail='Invalid token, please relogin')
+            raise HTTPException(status_code=402, detail='Invalid token')
         
     def auth_wrapper(self, auth: HTTPAuthorizationCredentials = Security(security)):
         return self.decode_token(auth.credentials)
         
-        
+    
+
+class JWTBearer(HTTPBearer):
+    authHandler = AuthHandler()
+    def __init__(self, auto_error:  bool = True):
+        super(JWTBearer,self).__init__(auto_error=auto_error)
+
+    async def __call__(self, request: Request):
+        credentials: HTTPAuthorizationCredentials = await super(JWTBearer,self).__call__(request)
+        if credentials:
+            if not credentials.scheme == "Bearer":
+                raise HTTPException(status_code=403, detail="Scheme Invalid")
+            decoded = self.authHandler.decode_token(credentials.credentials)
+            if decoded is not None:
+                return decoded
+        raise HTTPException(status_code=403, detail='Invalid token')
+     

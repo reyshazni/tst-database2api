@@ -3,6 +3,7 @@ from fastapi.responses import RedirectResponse
 import uvicorn
 from routes.events import event_router
 from routes.users import user_router
+import services.database_manager
 
 app = FastAPI()
 

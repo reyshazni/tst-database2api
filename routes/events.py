@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from models.events import Distance
-from models.auth import AuthHandler
+from services.auth import AuthHandler, JWTBearer
 
 event_router = APIRouter(
     tags=["Events"]
@@ -14,5 +14,5 @@ async def getjarak(distance: Distance):
             "Jarak": jarak}
     
 @event_router.post("/protected/")
-async def getjarak(username=Depends(AuthHandler.auth_wrapper)):
-    return {'name': username }
+async def testprotect(Authorize: JWTBearer = Depends(JWTBearer())):
+    return {"message": "you are logged in", "msg":Authorize}
