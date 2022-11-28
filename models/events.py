@@ -17,4 +17,12 @@ class Distance(BaseModel):
         coords_1 = (self.getLatLon(alamatToko)[0], self.getLatLon(alamatToko)[1])
         coords_2 = (self.getLatLon(alamatCust)[0], self.getLatLon(alamatCust)[1])
         return geopy.distance.geodesic(coords_1, coords_2).km
+    
+    class Config:
+        schema_extra = {
+            "example": {
+                "alamat1": "Dago Asri Bandung",
+                "alamat2": "Taman Setiabudi Semarang"
+            }
+        }
 
