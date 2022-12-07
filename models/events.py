@@ -26,6 +26,22 @@ class Distance(BaseModel):
             }
         }
 
+class Alamat(BaseModel):
+    jalan: str
+    kota: str
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "jalan": "Dago Asri 1",
+                "kota": "Bandung"
+            }
+        }
+    
+    # def getCoor(jalan, kota):
+
+
+
 class Bensin(BaseModel):
     pertamax: int
     pertalite: int
@@ -40,7 +56,7 @@ class Bensin(BaseModel):
             }
         }
 
-class updateBensin(BaseModel):
+class UpdateBensin(BaseModel):
     jenisBensin: str
     hargaBaru: int
 
