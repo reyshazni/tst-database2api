@@ -31,5 +31,23 @@ class Bensin(BaseModel):
     pertalite: int
     solar: int
 
-    def getAverage(pertamax: int, pertalite: int, solar: int):
-        return sum(pertamax, pertalite, solar)/3
+    class Config:
+        schema_extra = {
+            "example": {
+                "pertamax": "10000",
+                "pertalite": "8000",
+                "solar": "6000"
+            }
+        }
+
+class updateBensin(BaseModel):
+    jenisBensin: str
+    hargaBaru: int
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "jenisBensin": "pertamax",
+                "hargaBaru": "16000"
+            }
+        }
