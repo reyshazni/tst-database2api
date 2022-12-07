@@ -41,6 +41,6 @@ def login(inputUser: UserLoginSchema):
             raise HTTPException(status_code=401, detail='Username atau password salah!')
             return
         token = AuthHandler().encode_token(user.username)
-        return {'message': 'login berhasil!',
-                'token': token}        
+        return {'message': f'login berhasil! Selamat datang, ',
+                'token': token}
     raise HTTPException(status_code=401, detail='Username tidak terdaftar!')

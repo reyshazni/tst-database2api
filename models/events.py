@@ -26,3 +26,10 @@ class Distance(BaseModel):
             }
         }
 
+class Bensin(BaseModel):
+    pertamax: int
+    pertalite: int
+    solar: int
+
+    def getAverage(pertamax: int, pertalite: int, solar: int):
+        return sum(pertamax, pertalite, solar)/3
