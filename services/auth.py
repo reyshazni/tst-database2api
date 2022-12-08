@@ -56,4 +56,3 @@ class JWTBearer(HTTPBearer):
             if decoded is not None:
                 return decoded
         raise HTTPException(status_code=403, detail='Invalid token')
-     

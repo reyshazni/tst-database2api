@@ -19,3 +19,12 @@ class mapsapi():
         headers = {}
         response = requests.request("GET", url, headers=headers, data=payload).json()
         return response
+
+class daveroot():
+    def getDaveRoot(self):
+
+        url = "http://128.199.149.182:8001"
+        payload={}
+        headers = {}
+        response = requests.request("GET", url, headers=headers, data=payload).json()
+        return response

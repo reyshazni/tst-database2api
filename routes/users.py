@@ -34,13 +34,15 @@ def register(inputUser: UserRegisterModel):
 
 @user_router.post('/login')
 def login(inputUser: UserLoginSchema):
-    users = dbInstance.conn.execute(text("SELECT username, password FROM users WHERE username=:uname"), {"uname":inputUser.username})
+    users = dbInstance.conn.execute(text("SELECT username, password, fullName FROM users WHERE username=:uname"), {"uname":inputUser.username})
     hashed_password = AuthHandler().get_password_hash(passsword=inputUser.password)
     for user in users:
         if not AuthHandler().verify_password(plain_password=inputUser.password, hashed_password=user[1]):
             raise HTTPException(status_code=401, detail='Username atau password salah!')
             return
+        fullName = user[2]
+        firstName = fullName.split()[0]
         token = AuthHandler().encode_token(user.username)
-        return {'message': f'login berhasil! Selamat datang, ',
+        return {'message': f'login berhasil! Selamat datang, {firstName}!',
                 'token': token}
     raise HTTPException(status_code=401, detail='Username tidak terdaftar!')

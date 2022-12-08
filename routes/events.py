@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request, status
 from models.events import Alamat, UpdateBensin
 from services.auth import AuthHandler, JWTBearer
 from services.database_manager import dbInstance
-from services.maps import mapsapi
+from services.urlhandler import mapsapi, daveroot
 from sqlalchemy import text
 
 event_router = APIRouter(
@@ -126,8 +126,15 @@ def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat, Authorize: JWTBearer = De
     price = ((distance*hargaBensin*eta)/efficiency) + basicPrice
     return {"origin": msg["origin_addresses"][0],
             "destination": msg["destination_addresses"][0],
-            "drivingDistance": distance,
-            "drivingTime": seconds,
-            "avgSpeed": avg_speed_kmh,
-            "price": price
+            "drivingDistanceMeter": distance,
+            "drivingTimeSeconds": seconds,
+            "avgSpeedKmh": avg_speed_kmh,
+            "priceRupiah": price
     }
+
+@event_router.get("/get-from-dave")
+def getAllBensin():
+    dave = daveroot()
+    msg = dave.getDaveRoot()
+    print(msg)
+    return msg
