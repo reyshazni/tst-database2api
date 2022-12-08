@@ -17,5 +17,3 @@ db_sslmode = bool(config["DB_SSLMODE"])
         
 db_engine  = f"mysql+pymysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_database}"
 dbInstance = DatabaseManager(db_engine=db_engine)
-
-# how to execute query

@@ -101,9 +101,9 @@ def updateBensin(updateAlamatParam: Alamat, Authorize: JWTBearer = Depends(JWTBe
         raise HTTPException(status_code=406, detail="Update gagal, silakan coba lagi!")
 
 @event_router.post("/get-price")
-def getPrice(originParam: Alamat, destinationParam: Alamat):
+def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat, Authorize: JWTBearer = Depends(JWTBearer())):
     drivingDist = mapsapi()
-    msg = drivingDist.getDrivingDistanceMaps(originParam, destinationParam)
+    msg = drivingDist.getDrivingDistanceMaps(alamatAwal, alamatTujuan)
 
     distance = msg["rows"][0]["elements"][0]["distance"]["value"]
     seconds = msg["rows"][0]["elements"][0]["duration"]["value"]
