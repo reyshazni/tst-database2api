@@ -27,7 +27,6 @@ def getAllBensin(Authorize: JWTBearer = Depends(JWTBearer())):
     
     return {"Pertamax": hargaPertamax, "Pertalite": hargaPertalite, "solar": hargaSolar}
 
-@event_router.get("/get-avg-bensin")
 def getAverageBensin():
     pertamaxO = dbInstance.conn.execute(text("SELECT harga FROM bensin WHERE jenisBensin=:jenisBensin") , {"jenisBensin":"pertamax"})
     pertaliteO = dbInstance.conn.execute(text("SELECT harga FROM bensin WHERE jenisBensin=:jenisBensin") , {"jenisBensin":"pertalite"})
@@ -101,7 +100,7 @@ def updateBensin(updateAlamatParam: Alamat, Authorize: JWTBearer = Depends(JWTBe
         raise HTTPException(status_code=406, detail="Update gagal, silakan coba lagi!")
 
 @event_router.post("/get-price")
-def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat, Authorize: JWTBearer = Depends(JWTBearer())):
+def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat):
     drivingDist = mapsapi()
     msg = drivingDist.getDrivingDistanceMaps(alamatAwal, alamatTujuan)
 
