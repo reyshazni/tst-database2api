@@ -9,4 +9,4 @@ Tech Stack:
 - Uvicorn: https://www.uvicorn.org/
 
 Library:
-- Nominatim (get lat lon)
+- Google Maps API
