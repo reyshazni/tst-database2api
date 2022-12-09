@@ -12,11 +12,11 @@ user_router = APIRouter(
 
 @user_router.post('/register', status_code=201)
 def register(inputUser: UserRegisterModel):
-    if (len(inputUser.username) < 3):
+    if (len(inputUser.username) <= 3):
         raise HTTPException(status_code=405, detail="Username harus memiliki minilmal 4 karakter")
         return
     
-    if (len(inputUser.password) < 5):
+    if (len(inputUser.password) <= 5):
         raise HTTPException(status_code=405, detail="Password harus memiliki minimal 6 karakter")
         return
     
