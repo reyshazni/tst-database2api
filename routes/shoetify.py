@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request, status
 from models.events import Alamat, UpdateBensin
 from routes.events import getAverageBensin
 from services.auth import AuthHandler, JWTBearer
@@ -7,10 +7,10 @@ from services.urlhandler import mapsapi, daveroot
 from sqlalchemy import text
 
 
-shoetify_router = APIRouter()
+shoetify_router = FastAPI(openapi_prefix="/shoetify")
 
 @shoetify_router.post("/order")
-def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat, Authorize: JWTBearer = Depends(JWTBearer())):
+def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat):
     drivingDist = mapsapi()
     msg = drivingDist.getDrivingDistanceMaps(alamatAwal, alamatTujuan)
 
