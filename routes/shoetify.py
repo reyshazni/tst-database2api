@@ -69,7 +69,7 @@ def getPriceDave(alamatAwal: Alamat, alamatTujuan: Alamat):
             "drivingTimeSeconds": seconds1,
             "avgSpeedKmh": avg_speed_kmh1,
             "priceRupiah": price1,
-            "msg": "order berhasil dibuat!"
+            "message": "order berhasil dibuat!"
     }
     except:
         raise HTTPException(status_code=406, detail="Order gagal, silakan coba lagi")

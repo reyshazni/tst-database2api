@@ -108,7 +108,7 @@ def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat, Authorize: JWTBearer = De
             "drivingTimeSeconds": seconds,
             "avgSpeedKmh": avg_speed_kmh,
             "priceRupiah": price,
-            "msg": "order berhasil dibuat!"
+            "message": "order berhasil dibuat!"
     }
     except:
         raise HTTPException(status_code=406, detail="Order gagal, silakan coba lagi")
