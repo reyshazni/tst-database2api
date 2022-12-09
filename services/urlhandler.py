@@ -16,7 +16,7 @@ class mapsapi():
         alamatDestination = destination.jalan + destination.kota
 
         if alamatDestination == alamatOrigin:
-            raise HTTPException(status_code=406, detail="Alamat asal dan alamat tujuan tidak boleh sama!")
+            raise HTTPException(status_code=406, detail="Alamat awal dan alamat tujuan tidak boleh sama!")
 
 
         url = f"https://maps.googleapis.com/maps/api/distancematrix/json?origins={alamatOrigin}&destinations={alamatDestination}&key={api_key}"
