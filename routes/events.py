@@ -147,5 +147,4 @@ def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat):
 def getAllBensin():
     dave = daveroot()
     msg = dave.getDaveRoot()
-    print(msg)
     return msg
