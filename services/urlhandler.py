@@ -23,10 +23,11 @@ class mapsapi():
 class daveroot():
     def getDaveRoot(self):
 
-        url = "http://128.199.149.182:8001"
-        payload={}
-        headers = {}
-        response = requests.request("GET", url, headers=headers, data=payload).json()
+        headers = {
+            'accept': 'application/json',
+        }
+
+        response = requests.get('http://localhost:8000/order_identity', headers=headers).json()
         return response
 
 

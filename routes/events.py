@@ -159,7 +159,7 @@ def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat):
             "priceRupiah": price
     }
 
-@event_router.get("/get-from-dave")
+@event_router.get("/get-pemesan-shoetify")
 def getAllBensin():
     dave = daveroot()
     msg = dave.getDaveRoot()
