@@ -7,17 +7,12 @@ from routes.shoetify import shoetify
 import services.database_manager
 from services.urlhandler import mapsapi
 from models.events import Alamat
-from fastapi.middleware.trustedhost import TrustedHostMiddleware
 
 app = FastAPI()
 
-app.include_router(user_router, prefix="/user")
 app.include_router(event_router, prefix="/event")
+app.include_router(user_router, prefix="/user")
 app.mount("/shoetify", shoetify)
-
-shoetify.add_middleware(
-    TrustedHostMiddleware, allowed_hosts=["128.199.149.182"] 
-)
 
 @app.get("/")
 async def home():
