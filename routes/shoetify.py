@@ -26,12 +26,6 @@ def getPriceDave(alamatAwal: Alamat, alamatTujuan: Alamat):
     distance2 = msg2["rows"][0]["elements"][0]["distance"]["value"]
     seconds2 = msg2["rows"][0]["elements"][0]["duration"]["value"]
 
-
-    fromDave = getNamaNotelp()
-
-    nama = fromDave["nama"]
-    notelp = fromDave["notelp"]
-
     avg_speed1 = distance1/seconds1
 
     avg_speed2 = distance2/seconds2
@@ -62,10 +56,10 @@ def getPriceDave(alamatAwal: Alamat, alamatTujuan: Alamat):
     price1 = ((distance1*hargaBensin*eta1)/efficiency) + basicPrice1
     price2 = ((distance2*hargaBensin*eta2)/efficiency) + basicPrice2
     
-    newOrder = {"nama": nama, "notelp": notelp, "jalanAwal": alamatAwal.jalan, "kotaAwal": alamatAwal.kota, "jalanTujuan": alamatTujuan.jalan, "kotaTujuan": alamatTujuan.kota, "price1": price1, "price2": price2}
+    newOrder = {"namaPengambil": alamatAwal.nama, "namaPenerima": alamatTujuan.nama, "jalanAwal": alamatAwal.jalan, "kotaAwal": alamatAwal.kota, "jalanTujuan": alamatTujuan.jalan, "kotaTujuan": alamatTujuan.kota, "price1": price1, "price2": price2}
 
-    query = text("INSERT INTO orderkurirku (nama, notelp, jalanAwal, kotaAwal, jalanTujuan, kotaTujuan, price) VALUES (:nama, :notelp, :jalanAwal, :kotaAwal, :jalanTujuan, :kotaTujuan, :price1)")
-    query2 = text("INSERT INTO orderkurirku (nama, notelp, jalanAwal, kotaAwal, jalanTujuan, kotaTujuan, price) VALUES (:nama, :notelp, :jalanTujuan, :kotaTujuan, :jalanTujuan, :kotaAwal, :price)")
+    query = text("INSERT INTO orderkurirku (namaPengambil, namaPenerima, jalanAwal, kotaAwal, jalanTujuan, kotaTujuan, price) VALUES (:namaPengambil, :namaPenerima, :jalanAwal, :kotaAwal, :jalanTujuan, :kotaTujuan, :price1)")
+    query2 = text("INSERT INTO orderkurirku (namaPenerima, namaPengambil, jalanTujuan, kotaTujuan, jalanAwal, kotaAwal, price) VALUES (:namaPengambil, :namaPenerima, :jalanAwal, :kotaAwal, :jalanTujuan, :kotaTujuan, :price2)")
     try:
         dbInstance.conn.execute(query, newOrder)
         dbInstance.conn.execute(query2, newOrder)

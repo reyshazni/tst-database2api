@@ -117,18 +117,27 @@ def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat, Authorize: JWTBearer = De
     else:
         eta = 1
 
-    basicPrice = 4*(distance/3)
+    basicPrice = 4*(distance/3) + 4000
     
     efficiency = 40000
     hargaBensin = int(getAverageBensin()["Harga rata-rata bensin"])
     price = ((distance*hargaBensin*eta)/efficiency) + basicPrice
-    return {"origin": msg["origin_addresses"][0],
+    newOrder = {"namaPengambil": alamatAwal.nama, "namaPenerima": alamatTujuan.nama, "jalanAwal": alamatAwal.jalan, "kotaAwal": alamatAwal.kota, "jalanTujuan": alamatTujuan.jalan, "kotaTujuan": alamatTujuan.kota, "price1": price}
+
+    query = text("INSERT INTO orderkurirku (namaPengambil, namaPenerima, jalanAwal, kotaAwal, jalanTujuan, kotaTujuan, price) VALUES (:namaPengambil, :namaPenerima, :jalanAwal, :kotaAwal, :jalanTujuan, :kotaTujuan, :price1)")
+    try:
+        dbInstance.conn.execute(query, newOrder)
+        return {"origin": msg["origin_addresses"][0],
             "destination": msg["destination_addresses"][0],
-            "drivingDistanceMeter": distance,
+            "drivingDistanceMeters": distance,
             "drivingTimeSeconds": seconds,
             "avgSpeedKmh": avg_speed_kmh,
-            "priceRupiah": price
+            "priceRupiah": price,
+            "msg": "order berhasil dibuat!"
     }
+    except:
+        raise HTTPException(status_code=406, detail="Order gagal, silakan coba lagi")
+
 
 @event_router.post("/get-price")
 def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat):

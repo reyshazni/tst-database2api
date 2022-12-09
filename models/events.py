@@ -4,12 +4,14 @@ from geopy.geocoders import Nominatim
 import geopy.distance
 
 class Alamat(BaseModel):
+    nama: str
     jalan: str
     kota: str
 
     class Config:
         schema_extra = {
             "example": {
+                "nama": "rey shazni",
                 "jalan": "Dago Asri 1 C-19",
                 "kota": "Bandung"
             }
