@@ -29,7 +29,7 @@ def register(inputUser: UserRegisterModel):
         dbInstance.conn.execute(query, newUser)
         return {"message": "Akun Berhasil Didaftarkan!"}
     except:
-        raise HTTPException(status_code=406, detail="Registrasi gagal, silakan coba lagi")
+        raise HTTPException(status_code=406, detail="Username sudah diambil, silakah pilih username lain!")
 
 
 @user_router.post('/login')
