@@ -6,16 +6,27 @@ from services.database_manager import dbInstance
 from services.urlhandler import mapsapi, daveroot
 from sqlalchemy import text
 
+shoetify = FastAPI()
 
-shoetify_router = FastAPI(openapi_prefix="/shoetify")
+def getNamaNotelp():
+    nama = "dave"
+    notelp = "088216734613"
+    return {"nama": nama,
+            "notelp": notelp}
 
-@shoetify_router.post("/order")
-def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat):
+@shoetify.post("/order-shoetify")
+def getPriceDave(alamatAwal: Alamat, alamatTujuan: Alamat):
     drivingDist = mapsapi()
     msg = drivingDist.getDrivingDistanceMaps(alamatAwal, alamatTujuan)
+    msg2 = drivingDist.getDrivingDistanceMaps(alamatTujuan, alamatAwal)
 
-    distance = msg["rows"][0]["elements"][0]["distance"]["value"]
-    seconds = msg["rows"][0]["elements"][0]["duration"]["value"]
+    distance = msg["rows"][0]["elements"][0]["distance"]["value"] + msg2["rows"][0]["elements"][0]["distance"]["value"]
+    seconds = msg["rows"][0]["elements"][0]["duration"]["value"] + msg2["rows"][0]["elements"][0]["duration"]["value"]
+
+    fromDave = getNamaNotelp()
+
+    nama = fromDave["nama"]
+    notelp = fromDave["notelp"]
 
     avg_speed = distance/seconds
 
@@ -28,15 +39,26 @@ def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat):
     else:
         eta = 1
 
-    basicPrice = 4*(distance/3)
+    basicPrice = 4*(distance/3) + 4000
     
     efficiency = 40000
     hargaBensin = int(getAverageBensin()["Harga rata-rata bensin"])
     price = ((distance*hargaBensin*eta)/efficiency) + basicPrice
-    return {"origin": msg["origin_addresses"][0],
+
+    newOrder = {"nama": nama, "notelp": notelp, "jalanAwal": alamatAwal.jalan, "kotaAwal": alamatAwal.kota, "jalanTujuan": alamatTujuan.jalan, "kotaTujuan": alamatTujuan.kota, "price": price}
+
+    query = text("INSERT INTO orderkurirku (nama, notelp, jalanAwal, kotaAwal, jalanTujuan, kotaTujuan, price) VALUES (:nama, :notelp, :jalanAwal, :kotaAwal, :jalanTujuan, :kotaTujuan, :price)")
+    query2 = text("INSERT INTO orderkurirku (nama, notelp, jalanAwal, kotaAwal, jalanTujuan, kotaTujuan, price) VALUES (:nama, :notelp, :jalanTujuan, :kotaTujuan, :jalanTujuan, :kotaAwal, :price)")
+    try:
+        dbInstance.conn.execute(query, newOrder)
+        dbInstance.conn.execute(query2, newOrder)
+        return {"origin": msg["origin_addresses"][0],
             "destination": msg["destination_addresses"][0],
-            "drivingDistanceMeter": distance,
+            "drivingDistanceMeters": distance,
             "drivingTimeSeconds": seconds,
             "avgSpeedKmh": avg_speed_kmh,
-            "priceRupiah": price
+            "priceRupiah": price,
+            "msg": "order berhasil dibuat!"
     }
+    except:
+        raise HTTPException(status_code=406, detail="Order gagal, silakan coba lagi")
