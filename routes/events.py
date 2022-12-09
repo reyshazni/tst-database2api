@@ -73,7 +73,9 @@ def updateBensin(updateBensinParam: UpdateBensin, Authorize: JWTBearer = Depends
 
 @event_router.post("/order")
 def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat, Authorize: JWTBearer = Depends(JWTBearer())):
+
     drivingDist = mapsapi()
+
     msg = drivingDist.getDrivingDistanceMaps(alamatAwal, alamatTujuan)
 
     distance = msg["rows"][0]["elements"][0]["distance"]["value"]
