@@ -15,9 +15,9 @@ app.include_router(user_router, prefix="/user")
 app.include_router(event_router, prefix="/event")
 app.mount("/shoetify", shoetify)
 
-# shoetify.add_middleware(
-#     TrustedHostMiddleware, allowed_hosts=["128.199.149.182"] 
-# )
+shoetify.add_middleware(
+    TrustedHostMiddleware, allowed_hosts=["128.199.149.182"] 
+)
 
 @app.get("/")
 async def home():
