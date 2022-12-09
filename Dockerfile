@@ -4,9 +4,9 @@ WORKDIR /app
 
 COPY . /app
 
-RUN pip install -r requirements.txt
+RUN python -m pip install --upgrade pip
 
-RUN pip install geopy #need to be installed outide requirements.txt
+RUN pip install -r requirements.txt
 
 EXPOSE 8000
 
