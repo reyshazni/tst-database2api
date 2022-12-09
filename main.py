@@ -25,7 +25,7 @@ shoetify.add_middleware(
 )
 
 @shoetify.post("/order")
-def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat):
+def getPriceDave(alamatAwal: Alamat, alamatTujuan: Alamat):
     drivingDist = mapsapi()
     msg = drivingDist.getDrivingDistanceMaps(alamatAwal, alamatTujuan)
 
