@@ -24,7 +24,7 @@ shoetify.add_middleware(
     TrustedHostMiddleware, allowed_hosts=["128.199.149.182"] 
 )
 
-@shoetify.post("/order")
+@shoetify.post("/order-shoetify")
 def getPriceDave(alamatAwal: Alamat, alamatTujuan: Alamat):
     drivingDist = mapsapi()
     msg = drivingDist.getDrivingDistanceMaps(alamatAwal, alamatTujuan)
