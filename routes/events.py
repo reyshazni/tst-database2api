@@ -1,4 +1,3 @@
-from fastapi import APIRouter, HTTPException, status
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from models.events import Alamat, UpdateBensin
 from services.auth import AuthHandler, JWTBearer
@@ -99,8 +98,8 @@ def updateBensin(updateAlamatParam: Alamat, Authorize: JWTBearer = Depends(JWTBe
     except:
         raise HTTPException(status_code=406, detail="Update gagal, silakan coba lagi!")
 
-@event_router.post("/get-price")
-def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat):
+@event_router.post("/order")
+def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat, Authorize: JWTBearer = Depends(JWTBearer())):
     drivingDist = mapsapi()
     msg = drivingDist.getDrivingDistanceMaps(alamatAwal, alamatTujuan)
 
@@ -128,6 +127,35 @@ def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat):
             "drivingDistanceMeter": distance,
             "drivingTimeSeconds": seconds,
             "avgSpeedKmh": avg_speed_kmh,
+            "priceRupiah": price
+    }
+
+@event_router.post("/get-price")
+def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat):
+    drivingDist = mapsapi()
+    msg = drivingDist.getDrivingDistanceMaps(alamatAwal, alamatTujuan)
+
+    distance = msg["rows"][0]["elements"][0]["distance"]["value"]
+    seconds = msg["rows"][0]["elements"][0]["duration"]["value"]
+
+    avg_speed = distance/seconds
+
+    avg_speed_kmh = avg_speed * 3.6
+
+    if avg_speed <= 3:
+        eta = 1.5
+    elif avg_speed <= 5:
+        eta = 1.2
+    else:
+        eta = 1
+
+    basicPrice = 4*(distance/3)
+    
+    efficiency = 40000
+    hargaBensin = int(getAverageBensin()["Harga rata-rata bensin"])
+    price = ((distance*hargaBensin*eta)/efficiency) + basicPrice
+    return {"alamatAsal": msg["origin_addresses"][0],
+            "alamatTujuan": msg["destination_addresses"][0],
             "priceRupiah": price
     }
 
