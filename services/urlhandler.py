@@ -27,7 +27,7 @@ class daveroot():
             'accept': 'application/json',
         }
 
-        response = requests.get('http://localhost:8000/order_identity', headers=headers).json()
+        response = requests.get('http://128.199.149.182:8001/order_identity', headers=headers).json()
         return response
 
 

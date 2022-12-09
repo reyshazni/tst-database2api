@@ -71,33 +71,6 @@ def updateBensin(updateBensinParam: UpdateBensin, Authorize: JWTBearer = Depends
     except:
         raise HTTPException(status_code=406, detail="Update gagal, silakan coba lagi!")
 
-@event_router.get("/get-alamat-counter")
-def getAlamatCounter(Authorize: JWTBearer = Depends(JWTBearer())):
-    jalanO = dbInstance.conn.execute(text("SELECT jalan FROM alamat"))
-    kotaO = dbInstance.conn.execute(text("SELECT kota FROM alamat"))
-    for getterJalan in jalanO:
-        jalanCounter = getterJalan[0]
-        
-    for getterKota in kotaO:
-        kotaCounter = getterKota[0]
-
-    alamatCounter = (jalanCounter + " " + kotaCounter)
-    
-    return {"alamatCounter": alamatCounter}
-
-@event_router.put('/update-alamat-counter', status_code=201)
-def updateBensin(updateAlamatParam: Alamat, Authorize: JWTBearer = Depends(JWTBearer())):
-
-    newBensin = {"jalan": updateAlamatParam.jalan.lower(), "kota": updateAlamatParam.kota.lower()}
-
-    query = text("UPDATE alamat SET jalan = :jalan, kota = :kota")
-
-    try:
-        dbInstance.conn.execute(query, newBensin)
-        return {"message": "alamat Berhasil diperbarui!"}
-    except:
-        raise HTTPException(status_code=406, detail="Update gagal, silakan coba lagi!")
-
 @event_router.post("/order")
 def getPrice(alamatAwal: Alamat, alamatTujuan: Alamat, Authorize: JWTBearer = Depends(JWTBearer())):
     drivingDist = mapsapi()
