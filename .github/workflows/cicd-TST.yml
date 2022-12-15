@@ -26,7 +26,7 @@ jobs:
       - name: Build the Docker image
         run: docker build --platform linux/amd64 -t $(echo $IMAGE_NAME) .
 
-      - name: Build the Docker image
+      - name: Push the Docker image
         run: docker push $(echo $IMAGE_NAME)
 
   deploy-to-server:
@@ -41,23 +41,17 @@ jobs:
           username: ${{ secrets.HOST_USERNAME }}
           password: ${{ secrets.HOST_PASSWORD }}
           script: |
-            echo "running script in server"
             # Login Docker
             docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
             # Pull image
             docker pull reyshazni/tst-service-kirim
-            echo "new image pulled"
             # Stop running container
             docker stop rey-container
-            echo "old container stopped"
             # Remove old container
             docker rm rey-container
-            echo "old container removed"
             # Remove dangling image
             docker image prune -a
             yes | head -1
-            echo "dangling image removed"
             # Run image and open port
             docker run -d -p 80:8000 --name rey-container reyshazni/tst-service-kirim
-            echo "container started succesfully"
             docker cp /usr/share/rey/.env rey-container:/app/.env
